@@ -10,21 +10,25 @@ import { CacheManager } from './utils/cache.js';
 import { Logger } from './utils/logger.js';
 
 const logger = new Logger();
-const cache = new CacheManager(NEWS_KV);
 
-// Initialize services
-const rssParser = new RssParser(cache);
-const translator = new Translator(cache);
-const calendar = new CalendarService(cache);
-const deduplicator = new Deduplicator(cache);
-
-const bot = new BotService(env.TELEGRAM_BOT_TOKEN);
-const api = new ApiService(bot, cache);
-const admin = new AdminService(env.ADMIN_PASSWORD);
-const app = new AppService(bot, cache);
+// Initialize services with environment variables
+let cache, rssParser, translator, calendar, deduplicator, bot, api, admin, app;
 
 export default {
   async fetch(request, env, ctx) {
+    // Initialize services on first request
+    if (!cache) {
+      cache = new CacheManager(env.NEWS_KV);
+      rssParser = new RssParser(cache);
+      translator = new Translator(cache);
+      calendar = new CalendarService(cache);
+      deduplicator = new Deduplicator(cache);
+      bot = new BotService(env.TELEGRAM_BOT_TOKEN);
+      api = new ApiService(bot, cache);
+      admin = new AdminService(env.ADMIN_PASSWORD);
+      app = new AppService(bot, cache);
+    }
+
     const url = new URL(request.url);
     const path = url.pathname;
 
@@ -52,6 +56,16 @@ export default {
   },
 
   async scheduled(event, env, ctx) {
+    // Initialize services for scheduled tasks
+    if (!cache) {
+      cache = new CacheManager(env.NEWS_KV);
+      rssParser = new RssParser(cache);
+      translator = new Translator(cache);
+      calendar = new CalendarService(cache);
+      deduplicator = new Deduplicator(cache);
+      bot = new BotService(env.TELEGRAM_BOT_TOKEN);
+    }
+
     try {
       logger.info('Starting scheduled tasks...');
       
