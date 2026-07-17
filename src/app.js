@@ -2,6 +2,8 @@ export class AppService {
   constructor(bot, cache) {
     this.bot = bot;
     this.cache = cache;
+    this.botToken = "8910998762:AAEoa5PHPwTWL7iM9gy75K-R8B7kAiv5bu8";
+    this.channel = "@news_varr";
   }
 
   async renderApp(request) {
@@ -223,6 +225,14 @@ export class AppService {
             color: #fff;
         }
 
+        .channel-info {
+            text-align: center;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 14px;
+            opacity: 0.6;
+        }
+
         @media (max-width: 600px) {
             body {
                 padding: 10px;
@@ -239,6 +249,9 @@ export class AppService {
             </h1>
             <p style="opacity: 0.5; font-size: 14px;">
                 Автоматический сбор и перевод новостей
+            </p>
+            <p style="opacity: 0.3; font-size: 12px; margin-top: 5px;">
+                📌 Канал: @news_varr
             </p>
         </div>
 
@@ -263,6 +276,10 @@ export class AppService {
                     <p>Загрузка календаря...</p>
                 </div>
             </div>
+        </div>
+
+        <div class="channel-info">
+            Бот: @news_varbot • Канал: @news_varr
         </div>
     </div>
 
