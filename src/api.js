@@ -67,6 +67,11 @@ export class ApiService {
     const eventsCount = await this.cache.getEventsCount();
     
     return {
+      bot: {
+        token: "8910998762:AAEoa5PHPwTWL7iM9gy75K-R8B7kAiv5bu8",
+        channel: "@news_varr",
+        status: "active"
+      },
       news: {
         total: newsCount,
         lastUpdate: new Date().toISOString()
