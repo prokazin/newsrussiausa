@@ -10,6 +10,11 @@ export class CacheManager {
   }
 
   async storeNews(newsItems) {
+    if (!this.kv) {
+      console.error('KV storage not available');
+      return [];
+    }
+    
     const key = this.getNewsKey();
     const existing = await this.getNewsItems() || [];
     const merged = this.mergeNews(existing, newsItems);
@@ -18,6 +23,8 @@ export class CacheManager {
   }
 
   async getNewsItems() {
+    if (!this.kv) return [];
+    
     const key = this.getNewsKey();
     const data = await this.kv.get(key);
     return data ? JSON.parse(data) : null;
@@ -38,7 +45,9 @@ export class CacheManager {
     const map = new Map();
     
     // Add existing items
-    existing.forEach(item => map.set(item.id, item));
+    if (existing) {
+      existing.forEach(item => map.set(item.id, item));
+    }
     
     // Add new items (override duplicates)
     newItems.forEach(item => {
@@ -56,22 +65,30 @@ export class CacheManager {
   }
 
   async storeTranslation(id, translated) {
+    if (!this.kv) return;
+    
     const key = this.prefix.translation + id;
     await this.kv.put(key, JSON.stringify(translated));
   }
 
   async getTranslation(id) {
+    if (!this.kv) return null;
+    
     const key = this.prefix.translation + id;
     const data = await this.kv.get(key);
     return data ? JSON.parse(data) : null;
   }
 
   async storeEvents(events) {
+    if (!this.kv) return;
+    
     const key = this.prefix.events + 'all';
     await this.kv.put(key, JSON.stringify(events));
   }
 
   async getEvents() {
+    if (!this.kv) return [];
+    
     const key = this.prefix.events + 'all';
     const data = await this.kv.get(key);
     return data ? JSON.parse(data) : [];
@@ -101,6 +118,8 @@ export class CacheManager {
   }
 
   async clearCache() {
+    if (!this.kv) return;
+    
     const keys = await this.kv.list();
     for (const key of keys.keys) {
       await this.kv.delete(key.name);
