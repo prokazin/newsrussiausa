@@ -4,16 +4,16 @@ compatibility_date = "2024-01-01"
 
 [[kv_namespaces]]
 binding = "NEWS_KV"
-id = "your-kv-id"
-preview_id = "your-preview-kv-id"
+id = "c3189ea6b1de4f1f9afed3c119aa5018"
+preview_id = "c3189ea6b1de4f1f9afed3c119aa5018"
 
 [vars]
-TELEGRAM_BOT_TOKEN = "your-bot-token"
-ADMIN_PASSWORD = "your-admin-password"
-ADMIN_CHAT_ID = "your-admin-chat-id"
+TELEGRAM_BOT_TOKEN = "8910998762:AAEoa5PHPwTWL7iM9gy75K-R8B7kAiv5bu8"
+ADMIN_PASSWORD = "admin123"
+ADMIN_CHAT_ID = "8910998762"
 
 [env.production]
-vars = { TELEGRAM_BOT_TOKEN = "prod-token", ADMIN_PASSWORD = "prod-pass" }
+vars = { TELEGRAM_BOT_TOKEN = "8910998762:AAEoa5PHPwTWL7iM9gy75K-R8B7kAiv5bu8", ADMIN_PASSWORD = "admin123" }
 
 [triggers]
 crons = ["0 */3 * * *", "0 0 * * *"]
