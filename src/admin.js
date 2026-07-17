@@ -1,6 +1,6 @@
 export class AdminService {
   constructor(password) {
-    this.password = password;
+    this.password = password || "admin123";
   }
 
   async handleRequest(request) {
@@ -90,15 +90,23 @@ export class AdminService {
           button:hover {
             background: #0055CC;
           }
+          .info {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            opacity: 0.3;
+          }
         </style>
       </head>
       <body>
         <div class="login">
           <h1>🔐 Admin Panel</h1>
+          <p style="text-align: center; opacity: 0.5; margin-bottom: 20px;">@news_varbot</p>
           <form id="loginForm">
             <input type="password" id="password" placeholder="Enter password" required>
             <button type="submit">Login</button>
           </form>
+          <div class="info">Default password: admin123</div>
         </div>
         <script>
           document.getElementById('loginForm').addEventListener('submit', function(e) {
@@ -232,6 +240,16 @@ export class AdminService {
             opacity: 0.5;
             margin-right: 10px;
           }
+          .bot-info {
+            background: rgba(255,255,255,0.03);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 14px;
+          }
+          .bot-info span {
+            opacity: 0.5;
+          }
         </style>
       </head>
       <body>
@@ -239,6 +257,11 @@ export class AdminService {
           <div class="header">
             <h1>📊 Admin Dashboard</h1>
             <button class="logout-btn" onclick="logout()">Logout</button>
+          </div>
+
+          <div class="bot-info">
+            🤖 <strong>@news_varbot</strong> • 📌 <strong>@news_varr</strong>
+            <br><span>Bot Token: 8910998762:AAEoa5PHPwTWL7iM9gy75K-R8B7kAiv5bu8</span>
           </div>
 
           <div class="stats-grid" id="statsGrid">
@@ -275,7 +298,11 @@ export class AdminService {
             <div id="logsContainer">
               <div class="log-item">
                 <span class="log-time">${new Date().toLocaleString()}</span>
-                System initialized
+                Bot @news_varbot initialized
+              </div>
+              <div class="log-item">
+                <span class="log-time">${new Date().toLocaleString()}</span>
+                Channel @news_varr connected
               </div>
             </div>
           </div>
@@ -349,11 +376,15 @@ export class AdminService {
   }
 
   async handleStatsAPI(request) {
-    // Implementation for stats API
     return new Response(JSON.stringify({
+      bot: {
+        name: "@news_varbot",
+        channel: "@news_varr",
+        token: "8910998762:AAEoa5PHPwTWL7iM9gy75K-R8B7kAiv5bu8"
+      },
       news: { total: 150 },
       events: { upcoming: 12 },
-      cache: { size: '2.3 MB' },
+      cache: { size: "2.3 MB" },
       system: { uptime: 86400 }
     }), {
       headers: { 'Content-Type': 'application/json' }
@@ -362,7 +393,6 @@ export class AdminService {
 
   async handleCacheAPI(request) {
     if (request.method === 'DELETE') {
-      // Clear cache implementation
       return new Response(JSON.stringify({ success: true }));
     }
     return new Response('Method not allowed', { status: 405 });
