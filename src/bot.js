@@ -1,8 +1,9 @@
 export class BotService {
   constructor(token) {
-    this.token = token;
-    this.baseUrl = `https://api.telegram.org/bot${token}`;
+    this.token = token || "8910998762:AAEoa5PHPwTWL7iM9gy75K-R8B7kAiv5bu8";
+    this.baseUrl = `https://api.telegram.org/bot${this.token}`;
     this.publishedIds = new Set();
+    this.channelUsername = "@news_varr";
   }
 
   async handleWebhook(request) {
@@ -43,7 +44,7 @@ export class BotService {
     const keyboard = {
       inline_keyboard: [
         [
-          { text: '📰 Открыть приложение', web_app: { url: 'https://your-worker-url.workers.dev/' } },
+          { text: '📰 Открыть приложение', web_app: { url: 'https://news-aggregator-bot.workers.dev/' } },
           { text: '📅 Календарь', callback_data: 'calendar' }
         ],
         [
@@ -54,10 +55,11 @@ export class BotService {
     };
 
     await this.sendMessage(chatId, 
-      'Добро пожаловать в агрегатор новостей о войне в Украине!\n\n' +
+      '🤖 Добро пожаловать в агрегатор новостей о войне в Украине!\n\n' +
       '📱 Откройте мини-приложение для просмотра всех новостей\n' +
       '📅 Следите за важными событиями в календаре\n' +
-      '🔔 Новости публикуются каждые 3 часа',
+      '🔔 Новости публикуются каждые 3 часа\n\n' +
+      '📌 Канал: @news_varr',
       keyboard
     );
   }
@@ -76,8 +78,8 @@ export class BotService {
   }
 
   async publishNews(newsItems) {
-    const channelId = await this.getChannelId();
-    const published = 0;
+    const channelId = "@news_varr";
+    let published = 0;
 
     for (const item of newsItems) {
       if (this.publishedIds.has(item.id)) continue;
@@ -126,8 +128,7 @@ export class BotService {
   }
 
   async getChannelId() {
-    // Implementation to get channel ID
-    return '@your_channel_username';
+    return "@news_varr";
   }
 
   async getLatestNews() {
