@@ -1,0 +1,19 @@
+name = "news-aggregator-bot"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+
+[[kv_namespaces]]
+binding = "NEWS_KV"
+id = "your-kv-id"
+preview_id = "your-preview-kv-id"
+
+[vars]
+TELEGRAM_BOT_TOKEN = "your-bot-token"
+ADMIN_PASSWORD = "your-admin-password"
+ADMIN_CHAT_ID = "your-admin-chat-id"
+
+[env.production]
+vars = { TELEGRAM_BOT_TOKEN = "prod-token", ADMIN_PASSWORD = "prod-pass" }
+
+[triggers]
+crons = ["0 */3 * * *", "0 0 * * *"]
