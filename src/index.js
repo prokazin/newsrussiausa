@@ -70,13 +70,13 @@ export default {
       logger.info('Starting scheduled tasks...');
       
       // Collect news every 3 hours
-      await collectNews(env, ctx);
+      await collectNews(env);
       
       // Update calendar daily
       await calendar.updateEvents();
       
       // Cleanup old data
-      await cleanupOldData(cache);
+      await cleanupOldData();
       
       logger.info('Scheduled tasks completed');
     } catch (error) {
@@ -86,7 +86,7 @@ export default {
   }
 };
 
-async function collectNews(env, ctx) {
+async function collectNews(env) {
   const sources = [
     'https://www.ukrinform.ua/rss',
     'https://www.bbc.com/ukrainian/feed',
@@ -118,7 +118,7 @@ async function collectNews(env, ctx) {
       translatedNews.push(translated);
     } catch (error) {
       logger.error('Translation failed:', error);
-      translatedNews.push(item); // Keep original if translation fails
+      translatedNews.push(item);
     }
   }
 
@@ -131,7 +131,7 @@ async function collectNews(env, ctx) {
   return translatedNews;
 }
 
-async function cleanupOldData(cache) {
+async function cleanupOldData() {
   const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
   await cache.cleanupOldNews(sevenDaysAgo);
 }
