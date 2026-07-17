@@ -1,0 +1,17 @@
+{
+  "name": "news-aggregator-bot",
+  "version": "1.0.0",
+  "description": "Telegram news aggregator bot with mini-app",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "dependencies": {
+    "rss-parser": "^3.13.0",
+    "he": "^1.2.0"
+  },
+  "devDependencies": {
+    "wrangler": "^3.0.0"
+  }
+}
