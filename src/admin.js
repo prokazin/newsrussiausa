@@ -112,7 +112,6 @@ export class AdminService {
           document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const password = document.getElementById('password').value;
-            const auth = btoa(':' + password);
             fetch('/admin', {
               headers: {
                 'Authorization': 'Bearer ' + password
